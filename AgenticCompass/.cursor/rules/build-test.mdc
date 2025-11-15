@@ -1,0 +1,114 @@
+---
+description: Build and test instructions for AgenticCompass iOS project
+globs:
+alwaysApply: false
+---
+<build-test>
+
+<title>AgenticCompass Build and Test Guide</title>
+
+<project-info>
+- Project: AgenticCompass
+- Bundle ID: `com.vkosmirak.AgenticCompass`
+- Scheme: AgenticCompass
+- Project Path: `AgenticCompass/AgenticCompass.xcodeproj` (relative to workspace root)
+- Simulator UUID: `B6E73094-CED6-458D-B9F5-9D65034F10E0` (iOS 26.0 iPhone 16 Pro)
+</project-info>
+
+<rules>
+- Never use `xcodebuild` directly - Always use MCP tool calls (`build_run_sim()`, `test_sim()`, `build_sim()`, etc.)
+- Always use `simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0"` for build/test commands
+- Use `simulatorUuid: "B6E73094-CED6-458D-B9F5-9D65034F10E0"` for UI inspection commands (`describe_ui`, `screenshot`, `start_sim_log_cap`)
+- Use absolute paths when working from different directories
+- Avoid redundant calls: Use known values instead of `list_sims()`, `get_app_bundle_id()`, `list_schemes()`
+</rules>
+
+<commands>
+<run-app>
+Build, install, and launch the app:
+```
+build_run_sim({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0"
+})
+open_sim()  // Ensure simulator window is visible
+```
+</run-app>
+
+<build-only>
+Build without running:
+```
+build_sim({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0"
+})
+```
+</build-only>
+
+<unit-tests>
+Run all unit tests:
+```
+test_sim({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0",
+  extraArgs: ["-only-testing:AgenticCompassTests"]
+})
+```
+
+Run specific test class:
+```
+test_sim({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0",
+  extraArgs: ["-only-testing:AgenticCompassTests/TestClassName"]
+})
+```
+</unit-tests>
+
+<ui-tests>
+Run all UI tests:
+```
+test_sim({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0",
+  extraArgs: ["-only-testing:AgenticCompassUITests"]
+})
+```
+
+Run specific UI test class:
+```
+test_sim({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  simulatorId: "B6E73094-CED6-458D-B9F5-9D65034F10E0",
+  extraArgs: ["-only-testing:AgenticCompassUITests/TestClassName"]
+})
+```
+</ui-tests>
+
+<cleanup>
+Stop app:
+```
+stop_app_sim({
+  simulatorUuid: "B6E73094-CED6-458D-B9F5-9D65034F10E0",
+  bundleId: "com.vkosmirak.AgenticCompass"
+})
+```
+
+Clean build:
+```
+clean({
+  projectPath: "AgenticCompass/AgenticCompass.xcodeproj",
+  scheme: "AgenticCompass",
+  platform: "iOS Simulator"
+})
+```
+</cleanup>
+</commands>
+
+</build-test>

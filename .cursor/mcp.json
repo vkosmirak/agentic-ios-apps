@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "xcodebuild": {
+      "command": "npx",
+      "args": ["-y", "xcodebuildmcp@latest"],
+      "description": "Xcode build and test operations for iOS apps"
+    },
+    "ios-simulator": {
+      "command": "npx",
+      "args": ["-y", "ios-simulator-mcp"],
+      "description": "iOS Simulator management and control"
+    }
+  }
+}
+
